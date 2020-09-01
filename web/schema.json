@@ -1,0 +1,55 @@
+{
+    "type": "object",
+    "properties": {
+        "kind": {
+            "type": "string", "minLength": 20, "maxLength": 26
+        },
+        "etag": {
+            "type": "string", "minLength": 55, "maxLength": 55
+        },
+        "nextPageToken": {
+            "type": "string", "minLength": 6, "maxLength": 6
+        },
+        "regionCode": {
+            "type": "string", "minLength": 2, "maxLength": 2
+        },
+        "pageInfo": {
+            "type": "object",
+            "properties": {
+                "totalResults": {"type": "integer", "minimum": 1},
+                "resultsPerPage": {"type": "integer", "minimum": 1}
+            }
+        },
+        "items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "kind": {"type": "string", "minLength": 20, "maxLength": 26},
+                    "etag": {"type": "string", "minLength": 55, "maxLength": 55},
+                    "id": {
+                        "type": "object",
+                        "properties": {
+                            "kind": {
+                                "type": "string",
+                                "minLength": 13,
+                                "maxLength": 15
+                            },
+                            "channelId": {
+                                "type": "string",
+                                "minLength": 24,
+                                "maxLength": 24
+                            },
+                            "videoId": {
+                                "type": "string",
+                                "minLength": 11,
+                                "maxLength": 11
+                            }
+                        },
+                        "required": ["kind"]
+                    }
+                }
+            }
+        }
+    }
+}
