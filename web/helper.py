@@ -10,6 +10,7 @@ class InvalidSchemaError(Exception):
 
 
 # todo: add required in schema
+# todo: write docummentation and comments
 
 schema_errors = [
     "Failed validating 'type' in schema",
