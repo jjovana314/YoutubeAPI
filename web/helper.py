@@ -48,7 +48,7 @@ def validate_schema(schema: dict, data: dict):
 outter_keys_valid = ["kind", "etag", "nextPageToken", "regionCode", "pageInfo"]
 
 
-def sent_data_values(data: dict) -> object:
+def sent_data_values(data: dict) -> str:
     values_data = []
     keys = list(data.keys())
     for key in outter_keys_valid:
@@ -56,13 +56,17 @@ def sent_data_values(data: dict) -> object:
         if key is None:
             raise KeyError(f"'{key}' is not in data.")
         values_data.append(value)
-    return Data(*values_data)
+    data_obj = Data(*values_data)
+    data_obj.page_info_validation()
+    # if there is no exception, we want to return Data instance
+    # otherwise, exception will be raised
+    return str(data_obj)
 
 
 item_keys_valid = ["kind", "etag", "id"]
 
 
-def sent_items_values(data: dict) -> object:
+def sent_items_values(data: dict) -> list:
     try:
         items = data["items"]
     except KeyError:
@@ -76,6 +80,8 @@ def sent_items_values(data: dict) -> object:
                 raise KeyError(f"'{key}' is not in data.")
             data_items.append(item[key])
         item_object = Items(*data_items)
+        # we want to raise ValueError if id data is not valid
+        item_object.id_validation()
         item_objects.append(item_object)
 
-        return item_object
+    return item_objects
