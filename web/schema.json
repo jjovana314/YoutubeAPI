@@ -53,5 +53,5 @@
             }
         }
     },
-    "required": ["kind", "etag", "nextPageToken", "regionCode", "pageInfo"]
+    "required": ["kind", "etag", "nextPageToken", "regionCode", "pageInfo", "items"]
 }
