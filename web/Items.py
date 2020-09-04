@@ -13,7 +13,6 @@ class Items:
 
     @kind.setter
     def kind(self, value):
-        # helper.validate_type(value, str)
         self._kind = value
 
     @property
@@ -22,7 +21,6 @@ class Items:
 
     @etag.setter
     def etag(self, value):
-        # helper.validate_type(value, str)
         self._etag = value
 
     @property
@@ -31,6 +29,25 @@ class Items:
 
     @id_.setter
     def id_(self, value):
-        # helper.validate_type(value, dict)
         self._id = value
-        
+
+    def get_id_values(self):
+        return tuple(self._id.values())
+
+    def get_id_keys(self):
+        return tuple(self._id.keys())
+
+    def __eq__(self, other):
+        return (isinstance(other, Items) and
+                self.kind == other.kind and
+                self.etag == other.etag and
+                self.id_ == other.id_)
+
+    def __hash__(self):
+        return hash((self.kind, self.etag, self.id_))
+
+    def __repr__(self):
+        return f"{__class__.__name__}(kind={self.kind}, etag={self.etag}, id_={self.id_})"
+
+    def __str__(self):
+        return f"({self.kind}, {self.etag}, {self.id_})"
