@@ -51,6 +51,14 @@ class Data:
     def page_info(self, value):
         self._page_info = value
 
+    def page_info_validation(self):
+        total_results = self.page_info["totalResults"]
+        results_per_page = self.page_info["resultsPerPage"]
+        if total_results < results_per_page:
+            raise ValueError(
+                "Total results cannot be less than results per page"
+            )
+
     def get_page_info_values(self):
         return tuple(self.page_info.values())
 
