@@ -32,13 +32,13 @@ class Search(Resource):
             return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
         try:
-            data_instance = helper.sent_data_values(data)
-        except KeyError as ex:
+            data_instance = helper.send_data_values(data)
+        except (KeyError, ValueError) as ex:
             return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
 
         try:
             items_data = helper.sent_items_values(data)
-        except KeyError as ex:
+        except (KeyError, ValueError) as ex:
             return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
 
         return jsonify(
