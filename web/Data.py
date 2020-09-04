@@ -17,7 +17,6 @@ class Data:
 
     @kind.setter
     def kind(self, value):
-        # helper.validate_type(value, str)
         self._kind = value
 
     @property
@@ -26,7 +25,6 @@ class Data:
 
     @etag.setter
     def etag(self, value):
-        # helper.validate_type(value, str)
         self._etag = value
 
     @property
@@ -35,7 +33,6 @@ class Data:
 
     @next_page_token.setter
     def next_page_token(self, value):
-        # helper.validate_type(value, str)
         self._next_page_token = value
 
     @property
@@ -44,7 +41,6 @@ class Data:
 
     @region_code.setter
     def region_code(self, value):
-        # helper.validate_type(value, str)
         self._region_code = value
 
     @property
@@ -53,5 +49,34 @@ class Data:
 
     @page_info.setter
     def page_info(self, value):
-        # helper.validate_type(value, dict)
         self._page_info = value
+
+    def get_page_info_values(self):
+        return tuple(self.page_info.values())
+
+    def get_page_info_keys(self):
+        return tuple(self.page_info.keys())
+
+    def __eq__(self, other):
+        return (isinstance(other, Data) and
+                self.kind == other.kind and
+                self.etag == other.etag and
+                self.next_page_token == other.next_page_token and
+                self.region_code == other.region_code and
+                self.page_info == other.page_info)
+
+    def __repr__(self):
+        return (f"{__class__.__name__}(kind={self.kind}, ",
+                f"etag={self.etag}, next_page_token={self.next_page_token}, "
+                f"region_code={self.region_code}, page_info={self.page_info})")
+
+    def __str__(self):
+        return (f"({self.kind}, {self.etag}, {self.next_page_token}, "
+                f"{self.region_code}, {self.page_info})")
+
+    def __hash__(self):
+        return hash((self.kind,
+                     self.etag,
+                     self.next_page_token,
+                     self.region_code,
+                     self.page_info))
