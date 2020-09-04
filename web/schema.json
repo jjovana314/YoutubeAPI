@@ -18,7 +18,8 @@
             "properties": {
                 "totalResults": {"type": "integer", "minimum": 1},
                 "resultsPerPage": {"type": "integer", "minimum": 1}
-            }
+            },
+            "required": ["totalResults", "resultsPerPage"]
         },
         "items": {
             "type": "array",
@@ -51,5 +52,6 @@
                 }
             }
         }
-    }
+    },
+    "required": ["kind", "etag", "nextPageToken", "regionCode", "pageInfo"]
 }
