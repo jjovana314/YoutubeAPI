@@ -68,16 +68,15 @@ def sent_items_values(data: dict) -> object:
         items = data["items"]
     except KeyError:
         raise KeyError(f"'items' is not in data.") from None
-    else:
-        data_items = []
-        item_objects = []
-        for item in items:
-            item_keys = list(item.keys())
-            for key in item_keys_valid:
-                if key not in item_keys:
-                    raise KeyError(f"'{key}' is not in data.")
-                data_items.append(item[key])
-            item_object = Items(*data_items)
-            item_objects.append(item_object)
+    data_items = []
+    item_objects = []
+    for item in items:
+        item_keys = list(item.keys())
+        for key in item_keys_valid:
+            if key not in item_keys:
+                raise KeyError(f"'{key}' is not in data.")
+            data_items.append(item[key])
+        item_object = Items(*data_items)
+        item_objects.append(item_object)
 
         return item_object
