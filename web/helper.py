@@ -36,7 +36,6 @@ def validate_schema(schema: dict, data: dict):
     Raises:
         InvalidSchemaError: if data (schema) is not valid
     """
-    # data = dumps(data)
     try:
         validate(data, schema)
     except ValidationError as ex:
