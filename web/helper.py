@@ -9,7 +9,6 @@ class InvalidSchemaError(Exception):
     """ Raised if schema is not valid. """
 
 
-# todo: add required in schema
 # todo: write docummentation and comments
 
 schema_errors = [
@@ -48,14 +47,24 @@ def validate_schema(schema: dict, data: dict):
 outter_keys_valid = ["kind", "etag", "nextPageToken", "regionCode", "pageInfo"]
 
 
-def sent_data_values(data: dict) -> str:
+def send_data_values(data: dict) -> str:
+    """ Send data to Data class as arguments.
+
+    Args:
+        data (dict): dictionary with all data
+
+    Raises:
+        ValueError: if value on pageInfo key is not valid
+
+    Returns:
+        string representation of Data instance
+    """
     values_data = []
     keys = list(data.keys())
     for key in outter_keys_valid:
-        value = data.get(key, None)
-        if key is None:
-            raise KeyError(f"'{key}' is not in data.")
-        values_data.append(value)
+        # we do the schema validation, so we are sure
+        # that all keys exists in dictionary
+        values_data.append(data[key])
     data_obj = Data(*values_data)
     data_obj.page_info_validation()
     # if there is no exception, we want to return Data instance
@@ -66,19 +75,27 @@ def sent_data_values(data: dict) -> str:
 item_keys_valid = ["kind", "etag", "id"]
 
 
-def sent_items_values(data: dict) -> list:
-    try:
-        items = data["items"]
-    except KeyError:
-        raise KeyError(f"'items' is not in data.") from None
+def send_items_values(data: dict) -> list:
+    """ Send data to Items class as arguments.
+
+    Args:
+        data (dict): dictionary with all data
+
+    Raises:
+        ValueError: if value on id key is not valid
+
+    Returns:
+        list with all Items objects
+    """
+    items = data["items"]
     data_items = []
     item_objects = []
+
     for item in items:
         item_keys = list(item.keys())
         for key in item_keys_valid:
-            if key not in item_keys:
-                raise KeyError(f"'{key}' is not in data.")
             data_items.append(item[key])
+
         item_object = Items(*data_items)
         # we want to raise ValueError if id data is not valid
         item_object.id_validation()
