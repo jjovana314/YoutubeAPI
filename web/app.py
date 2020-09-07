@@ -26,33 +26,53 @@ class Search(Resource):
 
         for key in valid_keys:
             data_outter[key] = data.get(key, None)
+
         try:
             helper.validate_schema(schema, data_outter)
         except helper.InvalidSchemaError as ex:
             return jsonify({"message": ex.args[0], "code": ex.args[1]})
+        outter_data = helper.caller(data, helper.send_data_values)
+        items_data = helper.caller(data, helper.send_items_values)
 
+        if isinstance(outter_data, Exception):
+            return jsonify({"message": outter_data.args[0], "code": outter_data.args[1]})
+        if isinstance(items_data, Exception):
+            return jsonify({"message": items_data.args[0], "code": items_data.args[1]})
+
+        results = data["results"]
         try:
-            # data instance is string
-            data_instance = helper.send_data_values(data)
-        except (KeyError, ValueError) as ex:
-            return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
+            helper.validate_schema(schema, results)
+        except helper.InvalidSchemaError as ex:
+            return jsonify({"message": ex.args[0], "code": ex.args[1]})
+        data_result = helper.caller(results, helper.send_data_values)
+        items_result = helper.caller(results, helper.send_items_values)
 
-        try:
-            # items_data is list
-            items_data = helper.send_items_values(data)
-        except (KeyError, ValueError) as ex:
-            return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
+        if isinstance(data_result, Exception):
+            return jsonify({"message": data_result.args[0], "code": data_result.args[1]})
 
-        search.update(
+        if isinstance(items_result, Exception):
+            return jsonify({"message": items_result.args[0], "code": items_result.args[1]})
+        
+
+        search.insert(
             {
                 "Items": items_data,
-                "Outter data": data_instance
+                "Outter data": data_instance,
+                "Results": {
+                    "Outter data result": data_result,
+                    "Items result": items_result
+                }
             }
         )
 
         return jsonify(
             {
-                "message": "data is passed validation",
+                "message": {
+                    "items_data": items_data,
+                    "data_instance": data_instance,
+                    "data_result": data_result,
+                    "items_result": items_result
+                },
                 "code": HTTPStatus.OK
             }
         )
