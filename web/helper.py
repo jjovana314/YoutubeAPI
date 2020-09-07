@@ -1,5 +1,4 @@
-from jsonschema import validate
-from jsonschema.exceptions import ValidateError
+from jsonschema import validate, ValidationError
 from json import loads, dumps
 from Data import Data
 from Items import Items
@@ -35,8 +34,9 @@ def validate_schema(schema: dict, data: dict):
     Raises:
         InvalidSchemaError: if data (schema) is not valid
     """
+    data = dumps(data)
     try:
-        validate(data, schema)
+        validate(loads(data), schema)
     except ValidationError as ex:
         ex_str = str(ex)
         for message in schema_errors:
@@ -99,6 +99,6 @@ def send_items_values(data: dict) -> list:
         item_object = Items(*data_items)
         # we want to raise ValueError if id data is not valid
         item_object.id_validation()
-        item_objects.append(item_object)
+        item_objects.append(str(item_object))
 
     return item_objects
