@@ -96,13 +96,23 @@ def send_items_values(data: dict) -> list:
         item_object = Items(*values_list)
         item_objects_str.append(str(item_object))
 
-    #     item_keys = list(item.keys())
-    #     for key in item_keys_valid:
-    #         data_items.append(item[key])
-
-    # item_object = Items(*data_items)
-    # we want to raise ValueError if id data is not valid
-    # item_object.id_validation()
-    # item_objects.append(str(item_object))
-
     return item_objects_str
+
+
+def caller(data: object, helper_function: callable) -> object:
+    """ Calling function and sending an argument.
+
+    Args:
+        data (object): that we want to send as argument
+        helper_function (callable): function that we want to call
+
+    Returns:
+        KeyError or ValueError exception instance if exception is occured
+        if data is valid, we want to return result from function
+    """
+    try:
+        data = helper_function(data)
+    except (KeyError, ValueError) as ex:
+        return ex
+    else:
+        return data
