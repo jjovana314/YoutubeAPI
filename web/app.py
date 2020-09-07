@@ -18,10 +18,10 @@ search = db["Search-results"]
 class Search(Resource):
     def post(self):
         with open("schema.json", "r") as f:
-            schema = loads(f)
+            schema = loads(f.read())
 
         data = request.get_json()
-        valid_keys = helper.outter_keys_valid + data["items"]
+        valid_keys = helper.outter_keys_valid + helper.item_keys_valid
         data_outter = dict()
 
         for key in valid_keys:
@@ -32,14 +32,23 @@ class Search(Resource):
             return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
         try:
+            # data instance is string
             data_instance = helper.send_data_values(data)
         except (KeyError, ValueError) as ex:
             return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
 
         try:
+            # items_data is list
             items_data = helper.sent_items_values(data)
         except (KeyError, ValueError) as ex:
             return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
+
+        search.update(
+            {
+                "Items": items_data,
+                "Outter data": data_instance
+            }
+        )
 
         return jsonify(
             {
