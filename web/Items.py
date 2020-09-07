@@ -1,7 +1,5 @@
 import helper
 
-# todo: additional check for channelId and videoId
-
 
 class Items:
     def __init__(self, kind: str, etag: str, id_: dict):
