@@ -21,7 +21,7 @@ class Search(Resource):
             schema = loads(f.read())
 
         data = request.get_json()
-        valid_keys = helper.outter_keys_valid + helper.item_keys_valid
+        valid_keys = helper.outter_keys_valid + ["items"]
         data_outter = dict()
 
         for key in valid_keys:
@@ -39,7 +39,7 @@ class Search(Resource):
 
         try:
             # items_data is list
-            items_data = helper.sent_items_values(data)
+            items_data = helper.send_items_values(data)
         except (KeyError, ValueError) as ex:
             return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
 
