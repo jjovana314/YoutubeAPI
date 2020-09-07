@@ -41,7 +41,7 @@ def validate_schema(schema: dict, data: dict):
         ex_str = str(ex)
         for message in schema_errors:
             if message in ex_str:
-                raise InvalidSchemaError(message, INVALID_SCHEMA)
+                raise InvalidSchemaError(ex_str, INVALID_SCHEMA)
 
 
 outter_keys_valid = ["kind", "etag", "nextPageToken", "regionCode", "pageInfo"]
@@ -88,17 +88,21 @@ def send_items_values(data: dict) -> list:
         list with all Items objects
     """
     items = data["items"]
-    data_items = []
-    item_objects = []
+    data_items = [item[key] for item in items for key in item_keys_valid]
+    item_objects_str = []
 
     for item in items:
-        item_keys = list(item.keys())
-        for key in item_keys_valid:
-            data_items.append(item[key])
+        values_list = list(item.values())
+        item_object = Items(*values_list)
+        item_objects_str.append(str(item_object))
 
-        item_object = Items(*data_items)
-        # we want to raise ValueError if id data is not valid
-        item_object.id_validation()
-        item_objects.append(str(item_object))
+    #     item_keys = list(item.keys())
+    #     for key in item_keys_valid:
+    #         data_items.append(item[key])
 
-    return item_objects
+    # item_object = Items(*data_items)
+    # we want to raise ValueError if id data is not valid
+    # item_object.id_validation()
+    # item_objects.append(str(item_object))
+
+    return item_objects_str
