@@ -13,6 +13,8 @@ db = client.YoutubeDB
 search = db["Search-results"]
 
 # todo: test this code
+# todo: write documentation and comments
+# ! reduce code complexity
 
 
 class Search(Resource):
