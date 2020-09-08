@@ -57,7 +57,7 @@ def send_data_values(data: dict) -> str:
         ValueError: if value on pageInfo key is not valid
 
     Returns:
-        string representation of Data instance
+        string representation of Data's instance
     """
     values_data = []
     keys = list(data.keys())
@@ -104,11 +104,11 @@ def caller(data: object, helper_function: callable) -> object:
     """ Calling function and sending an argument.
 
     Args:
-        data (object): that we want to send as argument
+        data (object): object that we want to send as argument
         helper_function (callable): function that we want to call
 
     Returns:
-        KeyError or ValueError exception instance if exception is occured
+        KeyError or ValueError exception if exception is occured
         if data is valid, we want to return result from function
     """
     try:
