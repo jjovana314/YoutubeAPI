@@ -14,9 +14,7 @@ client = MongoClient("mongodb://db:27017")
 db = client.YoutubeDB
 search = db["Search-results"]
 
-# todo: test this code
 # todo: write documentation and comments
-# ! reduce code complexity
 
 
 class Search(Resource):

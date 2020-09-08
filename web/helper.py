@@ -11,7 +11,6 @@ class InvalidSchemaError(Exception):
     """ Raised if schema is not valid. """
 
 
-# todo: write docummentation and comments
 # ! hardcoded schema_errors
 schema_errors = [
     "Failed validating 'type' in schema",
