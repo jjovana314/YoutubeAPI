@@ -4,6 +4,7 @@ from jsonschema import validate, ValidationError
 from json import loads, dumps
 from Data import Data
 from Items import Items
+from flask import jsonify
 
 
 class InvalidSchemaError(Exception):
@@ -102,20 +103,36 @@ def send_items_values(data: dict) -> list:
     return item_objects_str
 
 
-def caller(data: object, helper_function: callable) -> object:
-    """ Calling function and sending an argument.
+def validation(
+    data_outter: dict, data_result: dict, schema: dict
+) -> object:
+    """ Validation for all data (outter, items and result).
 
     Args:
-        data (object): object that we want to send as argument
-        helper_function (callable): function that we want to call
+        data_outter (dict): outter data dictionary
+        data_result (dict): result data dictionary
+        schema (dict): schema for validation
 
     Returns:
-        KeyError or ValueError exception if exception is occured
-        if data is valid, we want to return result from function
+        tuple with exception data if exception occured
+        list with valid data
     """
     try:
-        data = helper_function(data)
+        validate_schema(schema, data_outter)
+        validate_schema(schema, data_result)
+    except InvalidSchemaError as ex:
+        return ex.args[0], ex.args[1]
+
+    try:
+        str_data = send_data_values(data_outter)
+        str_result = send_data_values(data_result)
     except (KeyError, ValueError) as ex:
-        return ex
-    else:
-        return data
+        return ex.args[0], ex.args[1]
+
+    try:
+        data_items = send_items_values(data_outter)
+        result_items = send_items_values(data_result)
+    except (KeyError, ValueError) as ex:
+        return ex.args[0], ex.args[1]
+
+    return [str_data, str_result, data_items, result_items]
