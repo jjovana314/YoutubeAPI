@@ -39,7 +39,7 @@ class Search(Resource):
         if isinstance(items_data, Exception):
             return jsonify({"message": items_data.args[0], "code": items_data.args[1]})
 
-        results = data["results"]
+        results = data["result"]
         try:
             helper.validate_schema(schema, results)
         except helper.InvalidSchemaError as ex:
@@ -52,12 +52,11 @@ class Search(Resource):
 
         if isinstance(items_result, Exception):
             return jsonify({"message": items_result.args[0], "code": items_result.args[1]})
-        
 
         search.insert(
             {
                 "Items": items_data,
-                "Outter data": data_instance,
+                "Outter data": outter_data,
                 "Results": {
                     "Outter data result": data_result,
                     "Items result": items_result
@@ -69,7 +68,7 @@ class Search(Resource):
             {
                 "message": {
                     "items_data": items_data,
-                    "data_instance": data_instance,
+                    "outter_data": outter_data,
                     "data_result": data_result,
                     "items_result": items_result
                 },
