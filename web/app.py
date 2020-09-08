@@ -34,9 +34,9 @@ class Search(Resource):
         outter_data = helper.caller(data, helper.send_data_values)
         items_data = helper.caller(data, helper.send_items_values)
 
-        if isinstance(outter_data, Exception):
+        if isinstance(outter_data, KeyError) or isinstance(outter_data, ValueError):
             return jsonify({"message": outter_data.args[0], "code": outter_data.args[1]})
-        if isinstance(items_data, Exception):
+        if isinstance(items_data, KeyError) or isinstance(outter_data, ValueError):
             return jsonify({"message": items_data.args[0], "code": items_data.args[1]})
 
         results = data["result"]
@@ -47,10 +47,10 @@ class Search(Resource):
         data_result = helper.caller(results, helper.send_data_values)
         items_result = helper.caller(results, helper.send_items_values)
 
-        if isinstance(data_result, Exception):
+        if isinstance(data_result, KeyError) or isinstance(data_result, ValueError):
             return jsonify({"message": data_result.args[0], "code": data_result.args[1]})
 
-        if isinstance(items_result, Exception):
+        if isinstance(items_result, KeyError) or isinstance(items_result, ValueError):
             return jsonify({"message": items_result.args[0], "code": items_result.args[1]})
 
         search.insert(
