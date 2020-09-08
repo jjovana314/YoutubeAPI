@@ -42,10 +42,8 @@ class Items:
         video_id = self.id_.get("videoId", None)
         channel_id = self.id_.get("channelId", None)
 
-        if video_id is None and channel_id is None:
-            raise ValueError("You must enter videoId or channelId", HTTPStatus.BAD_REQUEST)
-        if video_id is not None and channel_id is not None:
-            raise ValueError("You cannot enter both videoId and channelId", HTTPStatus.BAD_REQUEST)
+        if not (video_id is None) ^ (channel_id is None):
+            raise ValueError("Please enter videoId or channelId", HTTPStatus.BAD_REQUEST)
 
     def __eq__(self, other):
         return (isinstance(other, Items) and
