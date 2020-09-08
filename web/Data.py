@@ -79,7 +79,7 @@ class Data:
                 HTTPStatus.BAD_REQUEST
             )
         else:
-            setattr(self._page_info, value)
+            setattr(self, "_page_info", value)
 
     def get_page_info_values(self) -> tuple:
         """ Returns tuple of values from page_info dictionary. """
@@ -89,7 +89,7 @@ class Data:
         """ Returns tuple of keys from page_info dictionary. """
         return tuple(self.page_info.keys())
 
-    def __eq__(self, other: Data) -> bool:
+    def __eq__(self, other: object) -> bool:
         return (isinstance(other, Data) and
                 self.kind == other.kind and
                 self.etag == other.etag and
