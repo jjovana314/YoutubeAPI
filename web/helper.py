@@ -94,6 +94,7 @@ def send_items_values(data: dict) -> list:
     for item in items:
         values_list = list(item.values())
         item_object = Items(*values_list)
+        item_object.id_validation()
         item_objects_str.append(str(item_object))
 
     return item_objects_str
