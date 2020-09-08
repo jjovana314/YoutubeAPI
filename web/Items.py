@@ -57,9 +57,9 @@ class Items:
         if not (video_id is None) ^ (channel_id is None):
             raise ValueError("Please enter videoId or channelId", HTTPStatus.BAD_REQUEST)
         else:
-            setattr(self._id, value)
+            setattr(self, "_id", value)
 
-    def __eq__(self, other: Items) -> bool:
+    def __eq__(self, other: object) -> bool:
         return (isinstance(other, Items) and
                 self.kind == other.kind and
                 self.etag == other.etag and
