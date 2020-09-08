@@ -1,3 +1,5 @@
+""" Helper for youtube API research class. """
+
 from jsonschema import validate, ValidationError
 from json import loads, dumps
 from Data import Data
@@ -68,7 +70,6 @@ def send_data_values(data: dict) -> str:
         # that all keys exists in dictionary
         values_data.append(data[key])
     data_obj = Data(*values_data)
-    data_obj.page_info_validation()
     # if there is no exception, we want to return Data instance
     # otherwise, exception will be raised
     return str(data_obj)
@@ -96,7 +97,6 @@ def send_items_values(data: dict) -> list:
     for item in items:
         values_list = list(item.values())
         item_object = Items(*values_list)
-        item_object.id_validation()
         item_objects_str.append(str(item_object))
 
     return item_objects_str
