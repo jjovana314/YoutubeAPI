@@ -1,4 +1,5 @@
 import helper
+from http import HTTPStatus
 
 
 class Data:
@@ -56,7 +57,8 @@ class Data:
         results_per_page = self.page_info["resultsPerPage"]
         if total_results < results_per_page:
             raise ValueError(
-                "Total results cannot be less than results per page"
+                "Total results cannot be less than results per page",
+                HTTPStatus.BAD_REQUEST
             )
 
     def get_page_info_values(self):
