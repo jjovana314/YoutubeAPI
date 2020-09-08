@@ -9,7 +9,7 @@ class InvalidSchemaError(Exception):
 
 
 # todo: write docummentation and comments
-
+# ! hardcoded schema_errors
 schema_errors = [
     "Failed validating 'type' in schema",
     "Failed validating 'required' in schema",
@@ -38,7 +38,9 @@ def validate_schema(schema: dict, data: dict):
     try:
         validate(loads(data), schema)
     except ValidationError as ex:
+        # take exception's string representation
         ex_str = str(ex)
+        # looking for message in schema_error that matches our error
         for message in schema_errors:
             if message in ex_str:
                 raise InvalidSchemaError(ex_str, INVALID_SCHEMA)
