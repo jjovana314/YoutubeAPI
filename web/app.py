@@ -28,8 +28,15 @@ class Search(Resource):
 
         for key in valid_keys:
             data_outter[key] = data.get(key, None)
-
-        results = data["result"]
+        try:
+            results = data["result"]
+        except KeyError:
+            return jsonify(
+                {
+                    "message": "please enter result data",
+                    "code": helper.INVALID_SCHEMA
+                }
+            )
 
         all_data_valid = helper.validation(data_outter, results, schema)
         if isinstance(all_data_valid, tuple):
