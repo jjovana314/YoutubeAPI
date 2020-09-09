@@ -45,12 +45,22 @@ class Items:
         self._id_validation(value)
 
     def get_id_values(self) -> tuple:
+        """ Returns tuple with id values. """
         return tuple(self._id.values())
 
     def get_id_keys(self) -> tuple:
+        """ Returns tuple with id keys. """
         return tuple(self._id.keys())
 
     def _id_validation(self, value: dict) -> None:
+        """ Validate and set id value.
+
+        Args:
+            value (dict): dictionary for validation
+
+        Raises:
+            ValueError: if value dictionary is not valid
+        """
         video_id = value.get("videoId", None)
         channel_id = value.get("channelId", None)
 
