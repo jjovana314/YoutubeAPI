@@ -1,4 +1,4 @@
-""" Youtube research API. """
+""" YouTube research API. """
 
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
@@ -18,9 +18,17 @@ search = db["Search-results"]
 
 
 class Search(Resource):
+    """ YouTube data API. """
     def post(self):
         with open("schema.json", "r") as f:
             schema = loads(f.read())
+        # idea is to separate data in two parts
+        # first part is also separated in two parts
+        # first part contains outter data (kind, etag, nextPageToken, regionCode, pageInfo)
+        # also, first part contains items data, but we validate them differently
+        # second part contains result data, with outter and items data, too
+        # validation for second and first part is the same, schema is also the same
+        # but for readability and debugging, we separate those two segments
 
         data = request.get_json()
         valid_keys = helper.outter_keys_valid + ["items"]
